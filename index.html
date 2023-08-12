@@ -118,7 +118,7 @@
     <title>GitHub 文件加速</title>
 </head>
 <body class="flex">
-<a style="position: absolute;top: 0;right: 0;" href="https://github.com/hunshcn/gh-proxy"><img width="149" height="149" referrerPolicy="no-referrer"
+<a style="position: absolute;top: 0;right: 0;" href="https://github.com/df1228/gh-proxy"><img width="149" height="149" referrerPolicy="no-referrer"
                                                                                                src="https://inews.gtimg.com/newsapp_ls/0/12025455907/0"
                                                                                                alt="Fork me on GitHub"
                                                                                                data-recalc-dims="1"></a>
@@ -134,21 +134,25 @@
         <p>release、archive使用cf加速，文件会跳转至JsDelivr</p>
         <p>注意，不支持项目文件夹</p></div>
     <div class="example">
-        <p>分支源码：https://github.com/hunshcn/project/archive/master.zip</p>
-        <p>release源码：https://github.com/hunshcn/project/archive/v0.1.0.tar.gz</p>
-        <p>release文件：https://github.com/hunshcn/project/releases/download/v0.1.0/example.zip</p>
-        <p>分支文件：https://github.com/hunshcn/project/blob/master/filename</p>
-
+        下面格式的URL都支持:
         <ul>
-            <li><a href="https://github.com/dfang/xgit/blob/master/go.mod">https://github.com/dfang/xgit/blob/master/go.mod</a></li>
-            <li><a href="https://raw.githubusercontent.com/dfang/xgit/master/go.mod">https://raw.githubusercontent.com/dfang/xgit/master/go.mod</a></li>
-            <li><a href="https://github.com/dfang/xgit/releases/download/v0.0.5/xgit_Linux_arm64.tar.gz">https://github.com/dfang/xgit/releases/download/v0.0.5/xgit_Linux_arm64.tar.gz</a></li>
-            <li><a href="https://github.com/dfang/xgit/archive/refs/tags/v0.0.5.tar.gz">https://github.com/dfang/xgit/archive/refs/tags/v0.0.5.tar.gz</a></li>
-            <li><a href="https://github.com/dfang/xgit/archive/refs/heads/master.zip">https://github.com/dfang/xgit/archive/refs/heads/master.zip</a></li>
+            <li>文件:
+                <a href="https://ghproxy.df1228.workers.dev/https://github.com/dfang/xgit/blob/master/go.mod">https://github.com/dfang/xgit/blob/master/go.mod</a></li>
+            <li>raw文件:
+                <a href="https://ghproxy.df1228.workers.dev/https://raw.githubusercontent.com/dfang/xgit/master/go.mod">https://raw.githubusercontent.com/dfang/xgit/master/go.mod</a></li>
+            <li>releases中的文件:
+                <a href="https://ghproxy.df1228.workers.dev/https://github.com/dfang/xgit/releases/download/v0.0.5/xgit_Linux_arm64.tar.gz">https://github.com/dfang/xgit/releases/download/v0.0.5/xgit_Linux_arm64.tar.gz</a></li>
+            <li>releases中的源码包:
+                <a href="https://ghproxy.df1228.workers.dev/https://github.com/dfang/xgit/archive/refs/tags/v0.0.5.tar.gz">https://github.com/dfang/xgit/archive/refs/tags/v0.0.5.tar.gz</a></li>
+            <li>源码压缩包:
+                <a href="https://ghproxy.df1228.workers.dev/https://github.com/dfang/xgit/archive/refs/heads/master.zip">https://github.com/dfang/xgit/archive/refs/heads/master.zip</a></li>
+            <li>api.github.com
+                <a href="https://ghproxy.df1228.workers.dev/https://api.github.com/repos/cosmtrek/air/releases">https://api.github.com/repos/cosmtrek/air/releases</a>
+            </li>
         </ul>
     </div>
 </form>
-<p style="position: sticky;top: calc(100% - 2.5em);">项目基于Cloudflare Workers，开源于GitHub
+<p style="position: sticky;top: calc(100% - 2.5em);">项目基于Cloudflare Workers，Fork于GitHub
     <a style="color: #3294ea" href="https://github.com/hunshcn/gh-proxy">hunshcn/gh-proxy</a>
 </p>
 </body>
