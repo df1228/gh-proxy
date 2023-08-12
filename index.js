@@ -3,8 +3,9 @@
 /**
  * static files (404.html, sw.js, conf.js)
  */
-const ASSET_URL = 'https://hunshcn.github.io/gh-proxy/'
+const ASSET_URL = 'https://df1228.github.io/gh-proxy/'
 // 前缀，如果自定义路由为example.com/gh/*，将PREFIX改为 '/gh/'，注意，少一个杠都会错！
+// const PREFIX = 'https://ghproxy.df1228.workers.dev/'
 const PREFIX = '/'
 // 分支文件使用jsDelivr镜像的开关，0为关闭，默认关闭
 const Config = {
@@ -30,6 +31,7 @@ const exp3 = /^(?:https?:\/\/)?github\.com\/.+?\/.+?\/(?:info|git-).*$/i
 const exp4 = /^(?:https?:\/\/)?raw\.(?:githubusercontent|github)\.com\/.+?\/.+?\/.+?\/.+$/i
 const exp5 = /^(?:https?:\/\/)?gist\.(?:githubusercontent|github)\.com\/.+?\/.+?\/.+$/i
 const exp6 = /^(?:https?:\/\/)?github\.com\/.+?\/.+?\/tags.*$/i
+const exp7 = /^(?:https?:\/\/)?api\.github\.com\/.*$/i
 
 /**
  * @param {any} body
@@ -38,7 +40,7 @@ const exp6 = /^(?:https?:\/\/)?github\.com\/.+?\/.+?\/tags.*$/i
  */
 function makeRes(body, status = 200, headers = {}) {
     headers['access-control-allow-origin'] = '*'
-    return new Response(body, {status, headers})
+    return new Response(body, { status, headers })
 }
 
 
@@ -62,7 +64,7 @@ addEventListener('fetch', e => {
 
 
 function checkUrl(u) {
-    for (let i of [exp1, exp2, exp3, exp4, exp5, exp6]) {
+    for (let i of [exp1, exp2, exp3, exp4, exp5, exp6, exp7]) {
         if (u.search(i) === 0) {
             return true
         }
@@ -75,15 +77,22 @@ function checkUrl(u) {
  */
 async function fetchHandler(e) {
     const req = e.request
-    const urlStr = req.url
-    const urlObj = new URL(urlStr)
+    console.debug("req.url: ", req.url)
+    const urlObj = new URL(req.url)
     let path = urlObj.searchParams.get('q')
     if (path) {
-        return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
+        console.debug("redirect ...")
+        const toRemove = urlObj.origin + "/"
+        const redirectUrl = req.url.substr(toRemove.length)
+        return Response.redirect(`${redirectUrl}`, 301)
     }
+
     // cfworker 会把路径中的 `//` 合并成 `/`
+
+    // remove https://ghproxy.com/ from https://ghproxy.com/https://xxxxxxx
     path = urlObj.href.substr(urlObj.origin.length + PREFIX.length).replace(/^https?:\/+/, 'https://')
-    if (path.search(exp1) === 0 || path.search(exp5) === 0 || path.search(exp6) === 0 || path.search(exp3) === 0 || path.search(exp4) === 0) {
+    console.debug("path: ", path)
+    if (path.search(exp1) === 0 || path.search(exp5) === 0 || path.search(exp6) === 0 || path.search(exp3) === 0 || path.search(exp4) === 0 || path.search(exp7) === 0) {
         return httpHandler(req, path)
     } else if (path.search(exp2) === 0) {
         if (Config.jsdelivr) {
@@ -127,7 +136,7 @@ function httpHandler(req, pathname) {
         }
     }
     if (!flag) {
-        return new Response("blocked", {status: 403})
+        return new Response("blocked", { status: 403 })
     }
     if (urlStr.startsWith('github')) {
         urlStr = 'https://' + urlStr
@@ -178,4 +187,3 @@ async function proxy(urlObj, reqInit) {
         headers: resHdrNew,
     })
 }
-
